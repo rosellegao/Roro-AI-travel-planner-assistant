@@ -1,0 +1,46 @@
+name: Release guard
+
+on:
+  pull_request:
+    paths:
+      - ".agents/skills/travel-planner-studio/**"
+  push:
+    branches:
+      - main
+    paths:
+      - ".agents/skills/travel-planner-studio/**"
+
+permissions:
+  contents: read
+
+jobs:
+  validate-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Determine previous version
+        id: previous
+        shell: bash
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          if [[ -z "$BASE_SHA" || "$BASE_SHA" =~ ^0+$ ]]; then
+            previous="0.0.0"
+          else
+            previous="$(git show "$BASE_SHA:.agents/skills/travel-planner-studio/VERSION" 2>/dev/null || echo "0.0.0")"
+          fi
+          echo "version=$previous" >> "$GITHUB_OUTPUT"
+
+      - name: Validate version and release notes
+        run: >
+          node .agents/skills/travel-planner-studio/scripts/validate-release.mjs
+          .agents/skills/travel-planner-studio
+          --previous "${{ steps.previous.outputs.version }}"
+

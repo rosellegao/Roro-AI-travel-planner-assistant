@@ -2,6 +2,8 @@
 
 A reusable Codex skill for turning bookings, preferences, live research, maps, dining options, luggage plans, and iterative feedback into an executable trip plan and a mobile on-trip companion.
 
+Current release: **v1.0.0**
+
 ## Defaults
 
 - At the start of a new trip, summarize the saved traveler defaults once and let the user override them.
@@ -47,3 +49,15 @@ If GitHub asks for authentication, sign in through GitHub Desktop, the GitHub CL
 - Trip project generator
 - Trip-site and companion validators
 - Generic preference example
+
+## Release policy
+
+Every change to the Skill, templates, scripts, references, or interface metadata must:
+
+1. Increment the semantic version in `VERSION`.
+2. Add release notes to `references/release-history.md`.
+3. Pass the release and functional validators.
+4. Use a release commit and matching annotated `vX.Y.Z` Git tag.
+5. Push the tag so GitHub Actions creates the formal GitHub Release.
+
+The release guard rejects Skill changes that do not increase the version.

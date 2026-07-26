@@ -16,6 +16,7 @@ Create an executable trip operating plan, not a destination article. Preserve co
 5. For a multi-day plan, iterative review, HTML deliverable, travel companion, or publishing request, read [references/production-workflow.md](references/production-workflow.md).
 6. For an on-trip assistant, read [references/travel-companion-data-contract.md](references/travel-companion-data-contract.md).
 7. For live flight/accommodation comparison or multi-city optimization, read `../../../integrations/nomad-travel-planner-mcp/SKILL.md` and use its tools when available.
+8. Before changing this Skill or any bundled resource, read [references/release-management.md](references/release-management.md).
 
 ## Establish the trip brief
 
@@ -171,5 +172,18 @@ Before delivery or publication, verify:
 - the largest operational risk has a clear downgrade
 - the companion, when generated, comes from the latest confirmed plan and contains no stale alternatives
 - companion hard gates, progress controls, driver cards, local names, maps, and offline notes work
+
+## Release discipline
+
+Treat every update to this Skill, its templates, scripts, references, or interface metadata as a release.
+
+1. Read [references/release-management.md](references/release-management.md).
+2. Increment `VERSION` using semantic versioning.
+3. Add the matching entry to `references/release-history.md`.
+4. Run `scripts/validate-release.mjs` and all relevant functional validators.
+5. Commit the exact validated source and create the matching annotated `vX.Y.Z` Git tag.
+6. When a remote repository exists, push the commit and tag so the GitHub Release workflow can publish the release.
+
+Do not report a Skill update as complete if its version, release entry, validation, commit, or tag is missing.
 
 End a full plan with the next three actions in priority order. After a completed trip, offer a short retrospective and update reusable preferences or the Skill only with explicit permission.
