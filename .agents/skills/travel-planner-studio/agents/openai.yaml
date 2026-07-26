@@ -1,0 +1,4 @@
+interface:
+  display_name: "Travel Planner Studio"
+  short_description: "Build source-checked trips and review sites"
+  default_prompt: "Use $travel-planner-studio to turn my bookings and preferences into a verified itinerary and interactive review site."
