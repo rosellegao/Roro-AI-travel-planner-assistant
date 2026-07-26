@@ -1,6 +1,6 @@
 ---
 name: travel-planner-studio
-description: Create, revise, validate, and publish personalized travel plans for vacations, outings, business trips, family travel, food trips, and multi-city itineraries. Use when the user asks to plan a trip, turn bookings and preferences into a day-by-day route, compare destinations or transport passes, recommend and verify restaurants, build maps and luggage contingencies, create an interactive HTML trip site, consolidate iterative feedback into one final plan, or conduct a post-trip retrospective. Combine current primary-source research with confirmed bookings, realistic buffers, decision-ready alternatives, and explicit verification labels.
+description: Create, revise, validate, and publish personalized travel plans and mobile on-trip companions for vacations, outings, business trips, family travel, food trips, and multi-city itineraries. Use when the user asks to plan a trip, turn bookings and preferences into a day-by-day route, compare destinations or transport passes, recommend and verify restaurants, build maps and luggage contingencies, create an interactive HTML trip site, consolidate iterative feedback into one final plan, generate a time-aware travel assistant after itinerary confirmation, or conduct a post-trip retrospective. Combine current primary-source research with confirmed bookings, realistic buffers, decision-ready alternatives, explicit verification labels, and an execution-focused companion.
 ---
 
 # Travel Planner Studio
@@ -13,8 +13,9 @@ Create an executable trip operating plan, not a destination article. Preserve co
 2. If `.travel-planner/preferences.json` exists, read it as defaults. At the start of each new trip, summarize the active defaults in one compact confirmation and let the user override them. Do not reconfirm every field separately. Never create or change the file without explicit permission. See [references/preferences.md](references/preferences.md).
 3. For Japan, read [references/japan-playbook.md](references/japan-playbook.md).
 4. For named restaurants or food-focused trips, read [references/dining-recommendations.md](references/dining-recommendations.md).
-5. For a multi-day plan, iterative review, HTML deliverable, or publishing request, read [references/production-workflow.md](references/production-workflow.md).
-6. For live flight/accommodation comparison or multi-city optimization, read `../../../integrations/nomad-travel-planner-mcp/SKILL.md` and use its tools when available.
+5. For a multi-day plan, iterative review, HTML deliverable, travel companion, or publishing request, read [references/production-workflow.md](references/production-workflow.md).
+6. For an on-trip assistant, read [references/travel-companion-data-contract.md](references/travel-companion-data-contract.md).
+7. For live flight/accommodation comparison or multi-city optimization, read `../../../integrations/nomad-travel-planner-mcp/SKILL.md` and use its tools when available.
 
 ## Establish the trip brief
 
@@ -127,6 +128,24 @@ When building an HTML plan:
 
 Do not publish while substantive itinerary choices remain open unless the user explicitly asks for a draft deployment. Treat “review first” and “launch” as separate gates.
 
+## Generate the on-trip companion
+
+Treat itinerary confirmation as the trigger to build a mobile travel companion. Do not wait for the public-launch decision.
+
+1. Read [references/travel-companion-data-contract.md](references/travel-companion-data-contract.md).
+2. Use the latest confirmed plan as the only source of truth.
+3. Recheck time-sensitive schedules, closures, reservations, links, and hard gates before copying them.
+4. Create the companion with the skill-local `scripts/create-travel-companion.py`.
+5. Populate `companion-data.js` with time-aware events, hard gates, downgrade advice, maps, local-language names, driver cards, guides, bookings, and useful phrases.
+6. Validate with the skill-local `scripts/validate-travel-companion.mjs`.
+7. Present the companion for review. Publish it only after the launch gate.
+
+Keep the review site and companion distinct:
+
+- the review site supports decisions and unresolved alternatives
+- the companion executes confirmed decisions and preserves only explicit contingency branches
+- the companion stores progress locally on the device and must not contain booking references, passport data, payment data, or credentials
+
 ## Budget, preparation, and safety
 
 State budget scope and currency. Separate transport, accommodation, local movement, food, activities, fees, shopping, and contingency. Use ranges for uncertain inputs and mark live quotes.
@@ -150,5 +169,7 @@ Before delivery or publication, verify:
 - time-sensitive claims include sources and a checked-on date
 - feedback controls and copied summaries match the visible plan
 - the largest operational risk has a clear downgrade
+- the companion, when generated, comes from the latest confirmed plan and contains no stale alternatives
+- companion hard gates, progress controls, driver cards, local names, maps, and offline notes work
 
 End a full plan with the next three actions in priority order. After a completed trip, offer a short retrospective and update reusable preferences or the Skill only with explicit permission.

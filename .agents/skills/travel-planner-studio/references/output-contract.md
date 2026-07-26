@@ -107,3 +107,16 @@ Update the same artifact throughout review. Separate content confirmation from p
 ## 11. Next three actions
 
 End with exactly three prioritized actions that move the trip forward.
+
+## 12. On-trip companion
+
+After itinerary content is confirmed, create the mobile companion using [travel-companion-data-contract.md](travel-companion-data-contract.md). Keep it separate from the review site and optimize it for execution:
+
+- current day and next step
+- countdown and hard gates
+- complete, skip, undo, reset, and resume controls
+- heat, fatigue, and rain downgrade advice
+- maps, local names, driver cards, guides, bookings, and useful phrases
+- local progress storage and offline limitations
+
+Do not carry unresolved review choices into the companion unless they are explicit operational contingency branches.

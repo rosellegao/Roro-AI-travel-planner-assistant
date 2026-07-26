@@ -8,7 +8,7 @@ Use this workflow for multi-day trips, iterative planning, HTML review artifacts
 2. Research and feasibility
 3. Draft design
 4. Consolidated review
-5. Finalization and publishing
+5. Finalization, companion, and publishing
 6. Post-trip learning
 
 ## 1. Intake and source of truth
@@ -113,7 +113,7 @@ Batch questions after the draft. Group them under:
 
 Do not ask the user to reconfirm facts they already confirmed.
 
-## 5. Finalization and publishing
+## 5. Finalization, companion, and publishing
 
 Before marking a plan final:
 
@@ -128,6 +128,23 @@ Use two gates:
 
 - **Content gate:** the user confirms itinerary content.
 - **Launch gate:** the user authorizes public or private publication.
+
+Passing the content gate triggers creation of the mobile travel companion:
+
+1. Freeze the latest confirmed review data.
+2. Remove unresolved choices except explicit contingency branches.
+3. Recheck live operational facts and hard gates.
+4. Build and validate the companion using [travel-companion-data-contract.md](travel-companion-data-contract.md).
+5. Review the companion separately from the planning site.
+
+The companion should prioritize:
+
+- the next action based on the selected day and current time
+- countdown and latest-safe-departure information
+- complete, skip, undo, reset, and resume-from-here controls
+- heat, fatigue, and rain downgrades that preserve hard gates
+- segmented maps, local names, driver cards, destination guides, bookings, and phrases
+- offline itinerary access with clear limits for external maps and live disruption data
 
 Publishing must use the exact validated source. Never publish an earlier review version after the content gate.
 
